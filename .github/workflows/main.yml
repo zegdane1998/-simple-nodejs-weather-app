@@ -1,0 +1,13 @@
+name: workflow for node using snyk
+on: push
+job:
+  security-check-snyk:
+    runs-on: ubuntu-latest
+    steps:
+      -uses: actions/checkout@master
+      -name: run Snyk to check for vulnerabilities
+       uses: snyk/actions/node@master
+       env:
+         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+       with: 
+         args: --severity-threshold=high
