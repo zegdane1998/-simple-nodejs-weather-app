@@ -1,20 +1,26 @@
-name: Security test
-on:
-  push:
-    branches: ["master"]
- 
+name: Security check for python-test project
+
+on: [push, pull_request]
+
+defaults:
+  run:
+    working-directory: "test_projects/python/test"
+    
 job:
-  Full-security-sacn:
-    name: build and security scan
+  CodeQL-sacn:
     runs-on: ubuntu-latest
-    startegy:
-      matrix:
-        dotnet-versions: ['3.1.X"]
+
     step:
     - name: checkout repository
       uses: actions/checkout@v2
       
-      
+    - name: CodeQL Init
+      uses: github/codeql-action/init@v1
+      with:
+        languages: python
+        token: ${{ secrets.ACTIONSTOKEN }}
+    - name: CodeQL analyze
+      yses: github/codeql-action/analyze@v1
       
       
       
