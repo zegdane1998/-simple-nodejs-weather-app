@@ -16,8 +16,23 @@ job:
       with:
         args: --severity-threshold=high
  
-      
-      
+ 
+ 
+  node-js-code-scan:
+    needs: security-check-snyk
+    runs-on: ubuntu-latest
+    name: njsscan code scanning
+    steps:
+      - name: checkout the code
+        uses: actions/checkout@v2
+      - mame: nodejsscan scan
+        uses: zegdane1998/njsscan-action@master
+        with:
+          args: ". --sarif -- output results.sarif || true"
+      - name: Upload njsscan report
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: results.sarif
       
       
       
