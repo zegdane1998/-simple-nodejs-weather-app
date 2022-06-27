@@ -1,27 +1,21 @@
-name: Security check for python-test project
+name: Example workflow for Node using snyk
 
-on: [push, pull_request]
+on: push
 
-defaults:
-  run:
-    working-directory: "test_projects/python/test"
-    
 job:
-  CodeQL-sacn:
+  security-check-snyk:
     runs-on: ubuntu-latest
 
     step:
-    - name: checkout repository
-      uses: actions/checkout@v2
-      
-    - name: CodeQL Init
-      uses: github/codeql-action/init@v1
+    - uses: actions/checkout@master
+    - name: Run snyk to check for vulnérabilities
+      uses: snyk/actions.node@master
+      continue-on-error: true
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       with:
-        languages: python
-        token: ${{ secrets.ACTIONSTOKEN }}
-    - name: CodeQL analyze
-      yses: github/codeql-action/analyze@v1
-      
+        args: --severity-threshold=high
+ 
       
       
       
